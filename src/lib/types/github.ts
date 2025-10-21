@@ -8,3 +8,8 @@ export interface GitHubUser {
   location: string;
   blog: string;
 }
+
+export interface GitHubSocialAccount {
+  provider: string;
+  url: string;
+}
