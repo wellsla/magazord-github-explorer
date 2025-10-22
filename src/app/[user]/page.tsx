@@ -5,10 +5,13 @@ import {
   getUserRepositories,
 } from "@/services/github/users";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function User() {
   const params = useParams();
+
+  const [repository, setRepository] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -17,7 +20,7 @@ export default function User() {
           const data = await getUserData(params.user as string);
           console.log(data);
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.error("Erro buscando dados do usuário:", error);
         }
       }
     };
@@ -31,7 +34,7 @@ export default function User() {
           );
           console.log(socialAccounts);
         } catch (error) {
-          console.error("Error fetching user social accounts:", error);
+          console.error("Erro buscando contas sociais do usuário:", error);
         }
       }
     };
@@ -46,12 +49,24 @@ export default function User() {
           );
           console.log(repositories);
         } catch (error) {
-          console.error("Error fetching user repositories:", error);
+          console.error("Erro buscando repositórios do usuário:", error);
         }
       }
     };
     fetchUserRepositories();
   }, [params.user]);
 
-  return <div></div>;
+  return (
+    <div>
+      <input
+        type="text"
+        value={repository}
+        placeholder="Repositório do GitHub"
+        onChange={(e) => setRepository(e.target.value)}
+      />
+      <Link href={`/${params.user}/${repository}`}>
+        <button>Procurar</button>
+      </Link>
+    </div>
+  );
 }

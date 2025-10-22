@@ -44,3 +44,18 @@ export const getUserRepositories = async (
     throw error;
   }
 };
+
+export const getUserRepository = async (
+  username: string,
+  repoName: string
+): Promise<GitHubUserRepository> => {
+  try {
+    const response = await gitHubAxiosInstance.get(
+      `/repos/${username}/${repoName}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar repositório específico do usuário:", error);
+    throw error;
+  }
+};

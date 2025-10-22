@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Layout do Usuário",
-  description: "Layout para páginas específicas do usuário",
+  title: "Usuário",
+  description: "Usuário do GitHub",
 };
 
 export default function UserLayout({
