@@ -1,27 +1,20 @@
 "use client";
 
-import { getUserRepository } from "@/services/github/user";
 import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useUserRepoDetails } from "@/lib/hooks/useGithub";
 import { useEffect } from "react";
 
 export default function User() {
   const params = useParams();
 
-  const {
-    data: repositoryData,
-    error: repositoryError,
-    isLoading: repositoryLoading,
-  } = useQuery({
-    queryKey: ["userRepository", params.user, params.repo],
-    queryFn: () =>
-      getUserRepository(params.user as string, params.repo as string),
-    enabled: !!params.user && !!params.repo,
-  });
+  const repository = useUserRepoDetails(
+    params.user as string,
+    params.repo as string
+  );
 
   useEffect(() => {
-    console.log("Repository Data:", repositoryData);
-  }, [repositoryData]);
+    console.log("Repository Data:", repository);
+  }, [repository]);
 
   return <div></div>;
 }
