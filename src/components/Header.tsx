@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface HeaderProps {
-  local: string;
+  title: string;
+  route?: string;
 }
 
-const Header = ({ local }: HeaderProps) => {
+const Header = ({ title, route = "/" }: HeaderProps) => {
   return (
-    <div className="w-full bg-zinc-900 text-white">
+    <header className="w-full border-b bg-zinc-900 text-white">
       <div className="container mx-auto flex item-center gap-3 px-4 py-3">
         <Link href="/" className="flex items-center gap-2">
           <Image
@@ -28,11 +29,14 @@ const Header = ({ local }: HeaderProps) => {
         <span className="text-zinc-400 font-normal text-2xl text-center align-middle">
           /
         </span>
-        <span className="text-zinc-400 font-light text-base text-center">
-          {local}
-        </span>
+        <Link
+          className="text-zinc-400 font-light text-base text-center"
+          href={route}
+        >
+          {title}
+        </Link>
       </div>
-    </div>
+    </header>
   );
 };
 

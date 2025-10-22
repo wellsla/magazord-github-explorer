@@ -10,5 +10,9 @@ export default function UserLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div>{children}</div>;
+  return (
+    <>
+      <div className="mt-6">{children}</div>
+    </>
+  );
 }

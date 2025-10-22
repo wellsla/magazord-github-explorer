@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className="min-h-screen bg-background text-foreground antialiased">
         <Providers>
-          <Header local="Início" />
+          <Header title="Início" />
           <main className="container mx-auto px-4">{children}</main>
         </Providers>
       </body>

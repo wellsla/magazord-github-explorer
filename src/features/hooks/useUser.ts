@@ -39,7 +39,7 @@ const useUser = (username: string, params: QueryParams = {}) => {
     user: userQ.data,
     socials: socialsQ.data,
     repos: reposQ.data,
-    starred: starredQ.data,
+    starreds: starredQ.data,
     isLoading: queries.some((q) => q.isLoading),
     isError: queries.some((q) => q.isError),
     refetchAll: () => {
