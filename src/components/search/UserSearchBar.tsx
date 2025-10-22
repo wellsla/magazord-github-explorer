@@ -21,17 +21,15 @@ const UserSearchBar = () => {
     return () => clearTimeout(id);
   }, [q]);
 
-  const items = data?.items || [];
-
   const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && selected) {
-      router.push(`/users/${selected}`);
+      router.push(`/${selected}`);
     }
   };
 
   const handleClick = () => {
     if (selected) {
-      router.push(`/users/${selected}`);
+      router.push(`/${selected}`);
     }
   };
 
@@ -45,10 +43,10 @@ const UserSearchBar = () => {
           placeholder="Pesquise usuários GitHub (digite para receber sugestões)"
           onKeyDown={handleEnterKey}
         />
-        {!!items.length && q.trim() && (
+        {!!data?.items.length && q.trim() && (
           <Card className="absolute z-10 mt-2 w-full p-2">
             <ul className="max-h-72 overflow-auto">
-              {items.map((user) => (
+              {data.items.map((user) => (
                 <li
                   key={user.id}
                   className={`flex cursor-pointer items-center gap-2 rounded p-2 hover:bg-muted ${
@@ -59,7 +57,7 @@ const UserSearchBar = () => {
                   <Avatar>
                     <AvatarImage
                       src={user.avatar_url || undefined}
-                      alt={user.login}
+                      alt={user.name || "User Avatar"}
                     />
                     <AvatarFallback>
                       {user.login.charAt(0).toUpperCase()}

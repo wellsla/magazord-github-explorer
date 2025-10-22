@@ -6,7 +6,7 @@ export const getUsersSearch = async (
   username: string,
   params: QueryParams = {}
 ) => {
-  return getWithSchema(`/search`, UsersSearchSchema, {
+  return getWithSchema(`/search/users`, UsersSearchSchema, {
     params: {
       q: username,
       ...params,
