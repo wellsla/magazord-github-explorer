@@ -20,3 +20,11 @@ export const UserRepositorySchema = z.object({
   disabled: z.boolean(), // Verdadeiro = Desativado
 });
 export const UserRepositoriesSchema = z.array(UserRepositorySchema);
+
+export const UserRepositoryIssueSchema = z.object({
+  id: z.number(),
+  url: z.url(),
+  title: z.string(),
+  user: UserSchema,
+});
+export const UserRepositoryIssuesSchema = z.array(UserRepositoryIssueSchema);
