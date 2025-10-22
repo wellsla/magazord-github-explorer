@@ -18,7 +18,7 @@ export const GitHubUserSchema = z.object({
   bio: z.string().nullable(),
   company: z.string().nullable(),
   location: z.string().nullable(),
-  blog: z.string().nullable(),
+  blog: z.url().nullable(),
 });
 
 export type GitHubUser = z.infer<typeof GitHubUserSchema>;

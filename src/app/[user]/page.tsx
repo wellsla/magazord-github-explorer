@@ -1,47 +1,23 @@
 "use client";
 
-import {
-  getUserData,
-  getUserSocialAccounts,
-  getUserRepositories,
-} from "@/services/github/user";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useQueries } from "@tanstack/react-query";
+import { useGitHubUserBundle } from "@/lib/hooks/useGithub";
 
 export default function User() {
   const params = useParams();
 
   const [repository, setRepository] = useState("");
 
-  const results = useQueries({
-    queries: [
-      {
-        queryKey: ["userData", params.user],
-        queryFn: () => getUserData(params.user as string),
-        enabled: !!params.user,
-      },
-      {
-        queryKey: ["userSocialAccounts", params.user],
-        queryFn: () => getUserSocialAccounts(params.user as string),
-        enabled: !!params.user,
-      },
-      {
-        queryKey: ["userRepositories", params.user],
-        queryFn: () =>
-          getUserRepositories(params.user as string, { sort: "updated" }),
-        enabled: !!params.user,
-      },
-    ],
-  });
+  const { user, socials, repos } = useGitHubUserBundle(params.user as string);
 
   useEffect(() => {
-    console.log("User Data:", results[0].data);
-    console.log("Social Accounts:", results[1].data);
-    console.log("Repositories:", results[2].data);
-  }, [results]);
+    console.log("User Data:", user);
+    console.log("Social Accounts:", socials);
+    console.log("Repositories:", repos);
+  }, [user, socials, repos]);
 
   return (
     <div>
