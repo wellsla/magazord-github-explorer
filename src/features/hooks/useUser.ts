@@ -5,8 +5,9 @@ import {
   getUserRepositories,
   getUserStarredRepositories,
 } from "@/features/services/user";
+import type { QueryParams } from "@/lib/types/params";
 
-const useUser = (username: string) => {
+const useUser = (username: string, params: QueryParams = {}) => {
   const queries = useQueries({
     queries: [
       {
@@ -21,7 +22,7 @@ const useUser = (username: string) => {
       },
       {
         queryKey: ["userRepositories", username],
-        queryFn: () => getUserRepositories(username),
+        queryFn: () => getUserRepositories(username, params),
         enabled: !!username,
       },
       {

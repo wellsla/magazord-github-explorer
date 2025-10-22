@@ -10,6 +10,7 @@ export const UserSchema = z.object({
   location: z.string().nullable(),
   blog: z.url().nullable(),
 });
+export const UsersSchema = z.array(UserSchema);
 
 export const UserSocialAccountSchema = z.object({
   provider: z.string(),
