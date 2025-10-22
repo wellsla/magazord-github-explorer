@@ -4,7 +4,7 @@ import { UiState } from "@/lib/types/store";
 export const useUiStore = create<UiState>((set) => ({
   username: "",
   searchText: "",
-  filters: { language: "All", type: "all", sort: "updated" },
+  filters: { language: "all", type: "all", sort: "updated" },
   modals: { typeOpen: false, languageOpen: false },
   setUsername: (u) => set({ username: u }),
   setSearchText: (t) => set({ searchText: t }),
