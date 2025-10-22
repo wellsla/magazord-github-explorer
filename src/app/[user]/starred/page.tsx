@@ -2,16 +2,16 @@
 
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { useUserStarredRepos } from "@/lib/hooks/useGithub";
+import { useGitHubUserBundle } from "@/lib/hooks/useGithub";
 
 export default function User() {
   const params = useParams();
 
-  const starredRepositories = useUserStarredRepos(params.user as string);
+  const { starred } = useGitHubUserBundle(params.user as string);
 
   useEffect(() => {
-    console.log("Starred Repositories Data:", starredRepositories);
-  }, [starredRepositories]);
+    console.log("Starred Repositories Data:", starred);
+  }, [starred]);
 
   return <div></div>;
 }

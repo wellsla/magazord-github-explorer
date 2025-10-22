@@ -1,20 +1,20 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useUserRepoDetails } from "@/lib/hooks/useGithub";
 import { useEffect } from "react";
+import { useGitHubRepoDetails } from "@/lib/hooks/useGithub";
 
 export default function User() {
   const params = useParams();
 
-  const repository = useUserRepoDetails(
+  const { repoDetails } = useGitHubRepoDetails(
     params.user as string,
     params.repo as string
   );
 
   useEffect(() => {
-    console.log("Repository Data:", repository);
-  }, [repository]);
+    console.log("Repository Data:", repoDetails);
+  }, [repoDetails]);
 
   return <div></div>;
 }

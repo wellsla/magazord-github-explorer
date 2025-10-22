@@ -1,47 +1,65 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import {
   getUserData,
-  getUserRepository,
   getUserSocialAccounts,
+  getUserRepositories,
   getUserStarredRepositories,
+  getUserRepository,
 } from "@/services/github/user";
 
-export const useUser = (user?: string) => {
-  return useQuery({
-    queryKey: ["userData", user],
-    queryFn: () => getUserData(user as string),
-    enabled: !!user,
+export const useGitHubUserBundle = (username: string) => {
+  const queries = useQueries({
+    queries: [
+      {
+        queryKey: ["user", username],
+        queryFn: () => getUserData(username),
+        enabled: !!username,
+      },
+      {
+        queryKey: ["userSocialAccounts", username],
+        queryFn: () => getUserSocialAccounts(username),
+        enabled: !!username,
+      },
+      {
+        queryKey: ["userRepositories", username],
+        queryFn: () => getUserRepositories(username),
+        enabled: !!username,
+      },
+      {
+        queryKey: ["userStarredRepositories", username],
+        queryFn: () => getUserStarredRepositories(username),
+        enabled: !!username,
+      },
+    ],
   });
+
+  const [userQ, socialsQ, reposQ, starredQ] = queries;
+
+  return {
+    user: userQ.data,
+    socials: socialsQ.data,
+    repos: reposQ.data,
+    starred: starredQ.data,
+    isLoading: queries.some((q) => q.isLoading),
+    isError: queries.some((q) => q.isError),
+    refetchAll: () => {
+      queries.forEach((q) => q.refetch());
+    },
+  };
 };
 
-export const useUserSocialAccounts = (user?: string) => {
-  return useQuery({
-    queryKey: ["userSocialAccounts", user],
-    queryFn: () => getUserSocialAccounts(user as string),
-    enabled: !!user,
+export const useGitHubRepoDetails = (username: string, repo?: string) => {
+  const query = useQuery({
+    queryKey: ["userRepository", username, repo],
+    queryFn: () => getUserRepository(username, repo as string),
+    enabled: !!username && !!repo,
   });
-};
 
-export const useUserRepos = (user?: string, repo?: string) => {
-  return useQuery({
-    queryKey: ["userRepository", user, repo],
-    queryFn: () => getUserRepository(user as string, repo as string),
-    enabled: !!user && !!repo,
-  });
-};
+  const { data: repoDetails, isLoading, isError } = query;
 
-export const useUserStarredRepos = (user?: string) => {
-  return useQuery({
-    queryKey: ["userStarredRepositories", user],
-    queryFn: () => getUserStarredRepositories(user as string),
-    enabled: !!user,
-  });
-};
-
-export const useUserRepoDetails = (user?: string, repo?: string) => {
-  return useQuery({
-    queryKey: ["userRepositoryDetails", user, repo],
-    queryFn: () => getUserRepository(user as string, repo as string),
-    enabled: !!user && !!repo,
-  });
+  return {
+    repoDetails,
+    isLoading,
+    isError,
+  };
 };
