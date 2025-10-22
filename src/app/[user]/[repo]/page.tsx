@@ -1,30 +1,27 @@
 "use client";
+
 import { getUserRepository } from "@/services/github/user";
 import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 export default function User() {
   const params = useParams();
 
+  const {
+    data: repositoryData,
+    error: repositoryError,
+    isLoading: repositoryLoading,
+  } = useQuery({
+    queryKey: ["userRepository", params.user, params.repo],
+    queryFn: () =>
+      getUserRepository(params.user as string, params.repo as string),
+    enabled: !!params.user && !!params.repo,
+  });
+
   useEffect(() => {
-    const fetchSpecificRepository = async () => {
-      if (params.user) {
-        try {
-          const repository = await getUserRepository(
-            params.user as string,
-            params.repo as string
-          );
-          console.log(repository);
-        } catch (error) {
-          console.error(
-            "Erro buscando repositório específico do usuário:",
-            error
-          );
-        }
-      }
-    };
-    fetchSpecificRepository();
-  }, [params.user, params.repo]);
+    console.log("Repository Data:", repositoryData);
+  }, [repositoryData]);
 
   return <div></div>;
 }

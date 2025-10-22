@@ -1,4 +1,5 @@
 "use client";
+
 import {
   getUserData,
   getUserSocialAccounts,
@@ -8,54 +9,39 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useQueries } from "@tanstack/react-query";
 
 export default function User() {
   const params = useParams();
 
   const [repository, setRepository] = useState("");
 
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ["userData", params.user],
+        queryFn: () => getUserData(params.user as string),
+        enabled: !!params.user,
+      },
+      {
+        queryKey: ["userSocialAccounts", params.user],
+        queryFn: () => getUserSocialAccounts(params.user as string),
+        enabled: !!params.user,
+      },
+      {
+        queryKey: ["userRepositories", params.user],
+        queryFn: () =>
+          getUserRepositories(params.user as string, { sort: "updated" }),
+        enabled: !!params.user,
+      },
+    ],
+  });
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (params.user) {
-        try {
-          const data = await getUserData(params.user as string);
-          console.log(data);
-        } catch (error) {
-          console.error("Erro buscando dados do usuário:", error);
-        }
-      }
-    };
-    fetchUserData();
-
-    const fetchUserSocialAccounts = async () => {
-      if (params.user) {
-        try {
-          const socialAccounts = await getUserSocialAccounts(
-            params.user as string
-          );
-          console.log(socialAccounts);
-        } catch (error) {
-          console.error("Erro buscando contas sociais do usuário:", error);
-        }
-      }
-    };
-    fetchUserSocialAccounts();
-
-    const fetchUserRepositories = async () => {
-      if (params.user) {
-        try {
-          const repositories = await getUserRepositories(
-            params.user as string,
-            { sort: "updated" }
-          );
-          console.log(repositories);
-        } catch (error) {
-          console.error("Erro buscando repositórios do usuário:", error);
-        }
-      }
-    };
-    fetchUserRepositories();
-  }, [params.user]);
+    console.log("User Data:", results[0].data);
+    console.log("Social Accounts:", results[1].data);
+    console.log("Repositories:", results[2].data);
+  }, [results]);
 
   return (
     <div>

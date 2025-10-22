@@ -1,43 +1,59 @@
-export interface GitHubQueryParams {
-  type?: "all" | "owner" | "member";
-  sort?: "created" | "updated" | "pushed" | "full_name";
-  direction?: "asc" | "desc";
-  per_page?: number;
-  page?: number;
-}
+import { z } from "zod";
 
-export interface GitHubUser {
-  id: number;
-  login: string;
-  avatar_url: string | null;
-  name: string;
-  bio: string | null;
-  company: string | null;
-  location: string | null;
-  blog: string | null;
-}
+export const GitHubQueryParamsSchema = z.object({
+  type: z.enum(["all", "owner", "member"]).optional(),
+  sort: z.enum(["created", "updated", "pushed", "full_name"]).optional(),
+  direction: z.enum(["asc", "desc"]).optional(),
+  per_page: z.number().min(1).max(100).optional(),
+  page: z.number().min(1).optional(),
+});
 
-export interface GitHubUserSocialAccount {
-  provider: string | "generic";
-  url: string;
-}
+export type GitHubQueryParams = z.infer<typeof GitHubQueryParamsSchema>;
 
-export interface GitHubUserRepository {
-  id: number;
-  name: string;
-  full_name: string;
-  description: string | null;
-  stargazers_count: number;
-  forks_count: number;
-  language: string | null;
+export const GitHubUserSchema = z.object({
+  id: z.number(),
+  login: z.string(),
+  avatar_url: z.url().nullable(),
+  name: z.string(),
+  bio: z.string().nullable(),
+  company: z.string().nullable(),
+  location: z.string().nullable(),
+  blog: z.string().nullable(),
+});
+
+export type GitHubUser = z.infer<typeof GitHubUserSchema>;
+
+export const GitHubUserSocialAccountSchema = z.object({
+  provider: z.string(),
+  url: z.url(),
+});
+export const GitHubUserSocialAccountsSchema = z.array(
+  GitHubUserSocialAccountSchema
+);
+
+export type GitHubUserSocialAccount = z.infer<
+  typeof GitHubUserSocialAccountSchema
+>;
+
+export const GitHubUserRepositorySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  full_name: z.string(),
+  description: z.string().nullable(),
+  stargazers_count: z.number(),
+  forks_count: z.number(),
+  language: z.string().nullable(),
   // Tipos
-  mirror_url: string | null; // Diferente de null = Espelho
-  private: boolean; // Falso = Público, Verdadeiro = Privado
-  fork: boolean; // Verdadeiro = Fork
-  is_template: boolean; // Verdadeiro = Template
-  archived: boolean; // Verdadeiro = Arquivado
-  disabled: boolean; // Verdadeiro = Desativado
-}
+  mirror_url: z.url().nullable(), // Diferente de null = Espelho
+  private: z.boolean(), // Falso = Público, Verdadeiro = Privado
+  fork: z.boolean(), // Verdadeiro = Fork
+  is_template: z.boolean(), // Verdadeiro = Template
+  archived: z.boolean(), // Verdadeiro = Arquivado
+  disabled: z.boolean(), // Verdadeiro = Desativado
+});
+export const GitHubUserRepositoriesSchema = z.array(GitHubUserRepositorySchema);
+
+export type GitHubUserRepository = z.infer<typeof GitHubUserRepositorySchema>;
 
 export type RepoType =
   | "public"

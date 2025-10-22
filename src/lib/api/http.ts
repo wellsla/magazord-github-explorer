@@ -8,11 +8,20 @@ if (!API_BASE_URL) {
   );
 }
 
-const gitHubAxiosInstance = axios.create({
+const http = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-export default gitHubAxiosInstance;
+http.interceptors.response.use(
+  (r) => {
+    return r;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
+
+export default http;

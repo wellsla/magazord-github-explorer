@@ -1,75 +1,50 @@
-import gitHubAxiosInstance from "@/lib/api/github";
-import type {
-  GitHubQueryParams,
-  GitHubUser,
-  GitHubUserSocialAccount,
-  GitHubUserRepository,
+import { getWithSchema } from "@/lib/api/fetcher";
+
+import {
+  GitHubUserSchema,
+  GitHubUserSocialAccountsSchema,
+  GitHubUserRepositoriesSchema,
+  GitHubUserRepositorySchema,
+  type GitHubQueryParams,
 } from "@/lib/types/github";
 
-export const getUserData = async (username: string): Promise<GitHubUser> => {
-  try {
-    const response = await gitHubAxiosInstance.get(`/users/${username}`);
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao buscar dados do usuário:", error);
-    throw error;
-  }
+export const getUserData = async (username: string) => {
+  return getWithSchema(
+    `/users/${encodeURIComponent(username)}`,
+    GitHubUserSchema
+  );
 };
 
-export const getUserSocialAccounts = async (
-  username: string
-): Promise<GitHubUserSocialAccount[]> => {
-  try {
-    const response = await gitHubAxiosInstance.get(
-      `/users/${username}/social_accounts`
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao buscar contas sociais do usuário:", error);
-    throw error;
-  }
+export const getUserSocialAccounts = async (username: string) => {
+  return getWithSchema(
+    `/users/${encodeURIComponent(username)}/social_accounts`,
+    GitHubUserSocialAccountsSchema
+  );
 };
 
 export const getUserRepositories = async (
   username: string,
   params: GitHubQueryParams = {}
-): Promise<GitHubUserRepository[]> => {
-  try {
-    const response = await gitHubAxiosInstance.get(`/users/${username}/repos`, {
+) => {
+  return getWithSchema(
+    `/users/${encodeURIComponent(username)}/repos`,
+    GitHubUserRepositoriesSchema,
+    {
       params: params,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao buscar repositórios do usuário:", error);
-    throw error;
-  }
+    }
+  );
 };
 
-export const getUserStarredRepositories = async (
-  username: string
-): Promise<GitHubUserRepository[]> => {
-  try {
-    const response = await gitHubAxiosInstance.get(
-      `/users/${username}/starred`
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao buscar repositórios favoritos do usuário:", error);
-    throw error;
-  }
+export const getUserStarredRepositories = async (username: string) => {
+  return getWithSchema(
+    `/users/${encodeURIComponent(username)}/starred`,
+    GitHubUserRepositoriesSchema
+  );
 };
 
-export const getUserRepository = async (
-  username: string,
-  repoName: string
-): Promise<GitHubUserRepository> => {
-  try {
-    const response = await gitHubAxiosInstance.get(
-      `/repos/${username}/${repoName}`
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao buscar repositório específico do usuário:", error);
-    throw error;
-  }
+export const getUserRepository = async (username: string, repoName: string) => {
+  return getWithSchema(
+    `/repos/${encodeURIComponent(username)}/${encodeURIComponent(repoName)}`,
+    GitHubUserRepositorySchema
+  );
 };
