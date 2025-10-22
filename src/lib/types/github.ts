@@ -25,9 +25,25 @@ export interface GitHubUserSocialAccount {
 export interface GitHubUserRepository {
   id: number;
   name: string;
+  full_name: string;
   description: string | null;
   stargazers_count: number;
-  watchers_count: number;
-  language: number | null;
-  forks: number;
+  forks_count: number;
+  language: string | null;
+  // Tipos
+  mirror_url: string | null; // Diferente de null = Espelho
+  private: boolean; // Falso = Público, Verdadeiro = Privado
+  fork: boolean; // Verdadeiro = Fork
+  is_template: boolean; // Verdadeiro = Template
+  archived: boolean; // Verdadeiro = Arquivado
+  disabled: boolean; // Verdadeiro = Desativado
 }
+
+export type RepoType =
+  | "public"
+  | "private"
+  | "fork"
+  | "template"
+  | "archived"
+  | "mirror"
+  | "disabled";

@@ -3,7 +3,7 @@ import {
   getUserData,
   getUserSocialAccounts,
   getUserRepositories,
-} from "@/services/github/users";
+} from "@/services/github/user";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -66,7 +66,10 @@ export default function User() {
         onChange={(e) => setRepository(e.target.value)}
       />
       <Link href={`/${params.user}/${repository}`}>
-        <Button>Procurar</Button>
+        <Button>Procurar repositório específico</Button>
+      </Link>
+      <Link href={`/${params.user}/starred`}>
+        <Button>Starred</Button>
       </Link>
     </div>
   );

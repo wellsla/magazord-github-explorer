@@ -1,5 +1,5 @@
 "use client";
-import { getUserRepository } from "@/services/github/users";
+import { getUserRepository } from "@/services/github/user";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 

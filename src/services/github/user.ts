@@ -45,6 +45,20 @@ export const getUserRepositories = async (
   }
 };
 
+export const getUserStarredRepositories = async (
+  username: string
+): Promise<GitHubUserRepository[]> => {
+  try {
+    const response = await gitHubAxiosInstance.get(
+      `/users/${username}/starred`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar repositórios favoritos do usuário:", error);
+    throw error;
+  }
+};
+
 export const getUserRepository = async (
   username: string,
   repoName: string
