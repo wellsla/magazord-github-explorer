@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Repository } from "@/lib/types/repo";
 import { Card } from "@/ui/card";
 import { Badge } from "@/ui/badge";
+import { Star, GitFork, Bug } from "lucide-react";
 
 interface Props {
   repo: Repository;
@@ -28,9 +29,18 @@ const RepoCard = ({ repo }: Props) => {
           </p>
         )}
         <div className="mt-3 flex gap-6 text-sm text-slate-600">
-          <span>⭐ {repo.stargazers_count}</span>
-          <span>🍴 {repo.forks_count}</span>
-          <span>🍴 {repo.forks_count}</span>
+          <span>
+            <Star />
+            {repo.stargazers_count}
+          </span>
+          <span>
+            <GitFork />
+            {repo.forks_count}
+          </span>
+          <span>
+            <Bug />
+            {repo.open_issues_count}
+          </span>
         </div>
       </Card>
     </Link>
