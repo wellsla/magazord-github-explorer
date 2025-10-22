@@ -6,12 +6,13 @@ import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 
 export default function Home() {
-  const [username, setUsername] = useState("");
   const router = useRouter();
+
+  const [username, setUsername] = useState("");
 
   const navigate = () => {
     if (!username) return;
-    router.push(`/user/${encodeURIComponent(username)}`);
+    router.push(`/${encodeURIComponent(username)}`);
   };
 
   const enterNavigate = (e: React.KeyboardEvent<HTMLInputElement>) => {
