@@ -7,6 +7,7 @@ import {
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function User() {
   const params = useParams();
@@ -65,7 +66,7 @@ export default function User() {
         onChange={(e) => setRepository(e.target.value)}
       />
       <Link href={`/${params.user}/${repository}`}>
-        <button>Procurar</button>
+        <Button>Procurar</Button>
       </Link>
     </div>
   );

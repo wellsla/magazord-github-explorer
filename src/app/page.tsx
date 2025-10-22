@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -14,7 +15,7 @@ export default function Home() {
         onChange={(e) => setUsername(e.target.value)}
       />
       <Link href={`/${username}`}>
-        <button>Procurar</button>
+        <Button>Procurar</Button>
       </Link>
     </div>
   );
