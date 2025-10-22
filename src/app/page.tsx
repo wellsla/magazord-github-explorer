@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/button";
 
 export default function Home() {
   const [username, setUsername] = useState("");

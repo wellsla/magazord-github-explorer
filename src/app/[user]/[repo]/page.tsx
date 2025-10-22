@@ -2,15 +2,12 @@
 
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { useGitHubRepoDetails } from "@/lib/hooks/useGithub";
+import useRepo from "@/features/hooks/useRepo";
 
-export default function User() {
+export default function Repo() {
   const params = useParams();
 
-  const { repoDetails } = useGitHubRepoDetails(
-    params.user as string,
-    params.repo as string
-  );
+  const { repoDetails } = useRepo(params.user as string, params.repo as string);
 
   useEffect(() => {
     console.log("Repository Data:", repoDetails);

@@ -1,13 +1,12 @@
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import {
   getUserData,
   getUserSocialAccounts,
   getUserRepositories,
   getUserStarredRepositories,
-  getUserRepository,
-} from "@/services/github/user";
+} from "@/features/services/user";
 
-export const useGitHubUserBundle = (username: string) => {
+const useUser = (username: string) => {
   const queries = useQueries({
     queries: [
       {
@@ -48,18 +47,4 @@ export const useGitHubUserBundle = (username: string) => {
   };
 };
 
-export const useGitHubRepoDetails = (username: string, repo?: string) => {
-  const query = useQuery({
-    queryKey: ["userRepository", username, repo],
-    queryFn: () => getUserRepository(username, repo as string),
-    enabled: !!username && !!repo,
-  });
-
-  const { data: repoDetails, isLoading, isError } = query;
-
-  return {
-    repoDetails,
-    isLoading,
-    isError,
-  };
-};
+export default useUser;

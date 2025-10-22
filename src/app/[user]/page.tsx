@@ -3,21 +3,20 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { useGitHubUserBundle } from "@/lib/hooks/useGithub";
+import { Button } from "@/ui/button";
+import useUser from "@/features/hooks/useUser";
 
 export default function User() {
   const params = useParams();
 
   const [repository, setRepository] = useState("");
 
-  const { user, socials, repos } = useGitHubUserBundle(params.user as string);
+  const { user, socials } = useUser(params.user as string);
 
   useEffect(() => {
     console.log("User Data:", user);
     console.log("Social Accounts:", socials);
-    console.log("Repositories:", repos);
-  }, [user, socials, repos]);
+  }, [user, socials]);
 
   return (
     <div>
