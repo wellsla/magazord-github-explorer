@@ -1,13 +1,16 @@
 import { z } from "zod";
+import { UserSchema } from "@/features/schemas/user";
 
 export const UserRepositorySchema = z.object({
   id: z.number(),
   name: z.string(),
   full_name: z.string(),
   description: z.string().nullable(),
+  language: z.string().nullable(),
   stargazers_count: z.number(),
   forks_count: z.number(),
-  language: z.string().nullable(),
+  open_issues_count: z.number(),
+  owner: UserSchema,
   // Tipos
   mirror_url: z.url().nullable(), // Diferente de null = Espelho
   private: z.boolean(), // Falso = Público, Verdadeiro = Privado
