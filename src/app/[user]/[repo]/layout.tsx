@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Repositório",
-  description: "Repositório do GitHub",
+  title: "Repository",
+  description: "GitHub repository",
 };
 
 export default function RepoLayout({

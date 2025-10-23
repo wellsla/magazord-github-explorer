@@ -95,9 +95,7 @@ export default function StarredPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <Alert variant="destructive">
-          <AlertDescription>
-            Erro ao carregar dados do usuário.
-          </AlertDescription>
+          <AlertDescription>Error on fetching user data.</AlertDescription>
         </Alert>
       </div>
     );
@@ -153,7 +151,7 @@ export default function StarredPage() {
                 {filteredStarreds.length === 0 ? (
                   <Alert>
                     <AlertDescription>
-                      Nenhum repositório starred encontrado.
+                      No starred repositories found.
                     </AlertDescription>
                   </Alert>
                 ) : (
