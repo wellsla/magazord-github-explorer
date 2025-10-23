@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { UserSchema } from "@/features/schemas/user";
 
-export const UserRepositorySchema = z.object({
+export const RepositorySchema = z.object({
   id: z.number(),
   name: z.string(),
   full_name: z.string(),
@@ -19,12 +19,12 @@ export const UserRepositorySchema = z.object({
   archived: z.boolean(), // Verdadeiro = Arquivado
   disabled: z.boolean(), // Verdadeiro = Desativado
 });
-export const UserRepositoriesSchema = z.array(UserRepositorySchema);
+export const RepositoriesSchema = z.array(RepositorySchema);
 
-export const UserRepositoryIssueSchema = z.object({
+export const RepositoryIssueSchema = z.object({
   id: z.number(),
   url: z.url(),
   title: z.string(),
   user: UserSchema,
 });
-export const UserRepositoryIssuesSchema = z.array(UserRepositoryIssueSchema);
+export const RepositoryIssuesSchema = z.array(RepositoryIssueSchema);

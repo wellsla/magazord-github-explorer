@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUsersSearch } from "@/features/services/search";
 import type { QueryParams } from "@/lib/types/params";
 
-const useSearch = (username: string, params: QueryParams = {}) => {
+export const useSearchUsers = (username: string, params: QueryParams = {}) => {
   const query = useQuery({
     queryKey: ["usersSearch", username, params],
     queryFn: () => getUsersSearch(username, params),
@@ -17,5 +17,3 @@ const useSearch = (username: string, params: QueryParams = {}) => {
     isError,
   };
 };
-
-export default useSearch;

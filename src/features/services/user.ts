@@ -1,7 +1,7 @@
 import { getWithSchema } from "@/features/api/fetcher";
 
 import { UserSchema, UserSocialAccountsSchema } from "@/features/schemas/user";
-import { UserRepositoriesSchema } from "@/features/schemas/repo";
+import { RepositoriesSchema } from "@/features/schemas/repo";
 import type { QueryParams } from "@/lib/types/params";
 
 export const getUserData = async (username: string) => {
@@ -21,7 +21,7 @@ export const getUserRepositories = async (
 ) => {
   return getWithSchema(
     `/users/${encodeURIComponent(username)}/repos`,
-    UserRepositoriesSchema,
+    RepositoriesSchema,
     {
       params: params,
     }
@@ -31,6 +31,6 @@ export const getUserRepositories = async (
 export const getUserStarredRepositories = async (username: string) => {
   return getWithSchema(
     `/users/${encodeURIComponent(username)}/starred`,
-    UserRepositoriesSchema
+    RepositoriesSchema
   );
 };

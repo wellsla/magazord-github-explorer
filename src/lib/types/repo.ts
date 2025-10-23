@@ -1,18 +1,9 @@
 import { z } from "zod";
 import {
-  UserRepositorySchema,
-  UserRepositoryIssueSchema,
+  RepositorySchema,
+  RepositoryIssueSchema,
 } from "@/features/schemas/repo";
 
-export type UserRepository = z.infer<typeof UserRepositorySchema>;
+export type Repository = z.infer<typeof RepositorySchema>;
 
-export type UserRepositoryIssue = z.infer<typeof UserRepositoryIssueSchema>;
-
-export type RepoType =
-  | "public"
-  | "private"
-  | "fork"
-  | "template"
-  | "archived"
-  | "mirror"
-  | "disabled";
+export type RepositoryIssue = z.infer<typeof RepositoryIssueSchema>;

@@ -1,10 +1,10 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { /*useEffect,*/ useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/ui/button";
-import useUser from "@/features/hooks/useUser";
+// import useUser from "@/features/hooks/useUser";
 import { Input } from "@/ui/input";
 
 export default function User() {
@@ -12,7 +12,7 @@ export default function User() {
   const router = useRouter();
 
   const [repository, setRepository] = useState("");
-  const { user, socials } = useUser(params.user as string);
+  // const { user, socials } = useUser(params.user as string);
 
   const navigate = (page: string) => {
     if (!page) return;
@@ -31,14 +31,6 @@ export default function User() {
       navigate(page);
     }
   };
-
-  useEffect(() => {
-    console.log("User Data:", user);
-  }, [user]);
-
-  useEffect(() => {
-    console.log("Social Accounts:", socials);
-  }, [socials]);
 
   return (
     <>

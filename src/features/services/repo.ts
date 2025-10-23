@@ -1,13 +1,13 @@
 import { getWithSchema } from "@/features/api/fetcher";
 import {
-  UserRepositoryIssuesSchema,
-  UserRepositorySchema,
+  RepositoryIssuesSchema,
+  RepositorySchema,
 } from "@/features/schemas/repo";
 
 export const getUserRepository = async (username: string, repo: string) => {
   return getWithSchema(
     `/repos/${encodeURIComponent(username)}/${encodeURIComponent(repo)}`,
-    UserRepositorySchema
+    RepositorySchema
   );
 };
 
@@ -17,6 +17,6 @@ export const getUserRepositoryIssues = async (
 ) => {
   return getWithSchema(
     `/repos/${encodeURIComponent(username)}/${encodeURIComponent(repo)}/issues`,
-    UserRepositoryIssuesSchema
+    RepositoryIssuesSchema
   );
 };
