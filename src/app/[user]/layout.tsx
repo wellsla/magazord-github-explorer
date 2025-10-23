@@ -8,8 +8,8 @@ interface Props {
 }
 
 export const metadata: Metadata = {
-  title: "Usuário",
-  description: "Usuário do GitHub",
+  title: "Profile",
+  description: "GitHub user profile",
 };
 
 export default function UserLayout({ children, params }: Readonly<Props>) {

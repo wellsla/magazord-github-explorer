@@ -1,30 +1,170 @@
 "use client";
 
-// import { useParams } from "next/navigation";
-// import { useEffect } from "react";
-// import useUser from "@/features/hooks/useUser";
+import { useParams, useRouter } from "next/navigation";
+import ProfileSideBar from "@/components/profile/ProfileSidebar";
+import RepoCard from "@/components/repo/RepoCard";
+import FilterBar from "@/components/filters/FilterBar";
+import SearchField from "@/components/search/SearchField";
+import { useUser } from "@/features/hooks/useUser";
+import { Skeleton } from "@/ui/skeleton";
+import { Alert, AlertDescription } from "@/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
+import { useMemo, useState } from "react";
+import { useUiStore } from "@/features/stores/useUiStore";
 
-export default function Starred() {
-  // const params = useParams();
+export default function StarredPage() {
+  const params = useParams();
+  const router = useRouter();
+  const username = params.user as string;
+  const [repoSearch, setRepoSearch] = useState("");
+  const { filters } = useUiStore();
 
-  // const { starreds } = useUser(params.user as string);
+  const { user, socials, starreds, isLoading, isError } = useUser(username);
 
-  // useEffect(() => {
-  //   console.log("Starred Repositories Data:", starreds);
-  // }, [starreds]);
+  // Filtrar repositórios starred
+  const filteredStarreds = useMemo(() => {
+    if (!starreds) return [];
+
+    let filtered = starreds;
+
+    // Filtro por busca de texto
+    if (repoSearch) {
+      filtered = filtered.filter(
+        (repo) =>
+          repo.name.toLowerCase().includes(repoSearch.toLowerCase()) ||
+          repo.description?.toLowerCase().includes(repoSearch.toLowerCase())
+      );
+    }
+
+    // Filtro por tipo
+    if (filters.type !== "all") {
+      switch (filters.type) {
+        case "public":
+          filtered = filtered.filter((repo) => !repo.private);
+          break;
+        case "private":
+          filtered = filtered.filter((repo) => repo.private);
+          break;
+        case "fork":
+          filtered = filtered.filter((repo) => repo.fork);
+          break;
+        case "archived":
+          filtered = filtered.filter((repo) => repo.archived);
+          break;
+        case "mirror":
+          filtered = filtered.filter((repo) => repo.mirror_url !== null);
+          break;
+        case "template":
+          filtered = filtered.filter((repo) => repo.is_template);
+          break;
+      }
+    }
+
+    // Filtro por linguagem
+    if (filters.language !== "all" && filters.language !== "All") {
+      filtered = filtered.filter((repo) => repo.language === filters.language);
+    }
+
+    return filtered;
+  }, [starreds, repoSearch, filters]);
+
+  // Extrair linguagens únicas
+  const uniqueLanguages = useMemo(() => {
+    if (!starreds) return [];
+    const languages = starreds
+      .map((repo) => repo.language)
+      .filter((lang): lang is string => lang !== null);
+    return Array.from(new Set(languages));
+  }, [starreds]);
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex gap-8">
+          <Skeleton className="h-64 w-80" />
+          <div className="flex-1 space-y-4">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-32 w-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError || !user) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <AlertDescription>
+            Erro ao carregar dados do usuário.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        Starreds
-      </div>
-      <div className="grid gap-3">
-        {/* {starreds?.map((starred) => (
-          <div key={starred.id} className="p-4 border rounded-md">
-            <h3 className="text-lg font-semibold">{starred.name}</h3>
-            <p className="text-sm text-gray-600">{starred.description}</p>
-          </div>
-        ))} */}
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Sidebar com perfil do usuário */}
+        <ProfileSideBar user={user} userSocialAccounts={socials} />
+
+        {/* Conteúdo principal */}
+        <div className="flex-1">
+          <Tabs defaultValue="starred" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger
+                value="repositories"
+                onClick={() => router.push(`/${username}`)}
+              >
+                Repositories
+              </TabsTrigger>
+              <TabsTrigger value="starred">
+                Starred ({starreds?.length || 0})
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="starred" className="space-y-4">
+              {/* Barra de busca */}
+              <SearchField
+                value={repoSearch}
+                onChange={setRepoSearch}
+                placeholder="Buscar repositórios starred..."
+              />
+
+              {/* Filtros */}
+              <div className="flex gap-3">
+                <FilterBar
+                  variant="type"
+                  options={[
+                    "public",
+                    "private",
+                    "fork",
+                    "archived",
+                    "mirror",
+                    "template",
+                  ]}
+                />
+                <FilterBar variant="language" options={uniqueLanguages} />
+              </div>
+
+              {/* Lista de repositórios */}
+              <div className="space-y-3">
+                {filteredStarreds.length === 0 ? (
+                  <Alert>
+                    <AlertDescription>
+                      Nenhum repositório starred encontrado.
+                    </AlertDescription>
+                  </Alert>
+                ) : (
+                  filteredStarreds.map((repo) => (
+                    <RepoCard key={repo.id} repo={repo} />
+                  ))
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );
