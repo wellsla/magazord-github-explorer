@@ -1,38 +1,25 @@
 "use client";
 
 import { Input } from "@/ui/input";
-import { useUiStore } from "@/features/stores/useUiStore";
 import { Search } from "lucide-react";
 
 interface Props {
+  value: string;
+  onChange: (value: string) => void;
   placeholder?: string;
 }
 
-const SearchField = ({ placeholder }: Props) => {
-  const { searchText, setSearchText } = useUiStore();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
-  };
-
-  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      (e.currentTarget as HTMLInputElement).blur();
-    }
-  };
-
+const SearchField = ({ value, onChange, placeholder = "Buscar..." }: Props) => {
   return (
-    <div className="relative w-full max-w-lg">
+    <div className="relative">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
       <Input
         type="text"
         placeholder={placeholder}
-        value={searchText}
-        onChange={handleChange}
-        onKeyDown={handleEnterKey}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="pl-10"
       />
-      <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 opacity-60">
-        <Search className="h-4 w-4" />
-      </span>
     </div>
   );
 };
