@@ -1,8 +1,14 @@
 import { z } from "zod";
-import { UsersSchema } from "@/features/schemas/user";
+
+export const UserSearchItemSchema = z.object({
+  id: z.number(),
+  login: z.string(),
+  avatar_url: z.url().optional(),
+  name: z.string().optional().nullable(),
+});
 
 export const UsersSearchSchema = z.object({
   total_count: z.number(),
   incomplete_results: z.boolean(),
-  items: UsersSchema,
+  items: z.array(UserSearchItemSchema),
 });

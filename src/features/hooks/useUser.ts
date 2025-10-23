@@ -7,7 +7,7 @@ import {
 } from "@/features/services/user";
 import type { QueryParams } from "@/lib/types/params";
 
-const useUser = (username: string, params: QueryParams = {}) => {
+export const useUser = (username: string, params: QueryParams = {}) => {
   const queries = useQueries({
     queries: [
       {
@@ -47,5 +47,3 @@ const useUser = (username: string, params: QueryParams = {}) => {
     },
   };
 };
-
-export default useUser;

@@ -4,7 +4,7 @@ import {
   getUserRepositoryIssues,
 } from "@/features/services/repo";
 
-const useRepo = (username: string, repo: string) => {
+export const useRepo = (username: string, repo: string) => {
   const queries = useQueries({
     queries: [
       {
@@ -32,5 +32,3 @@ const useRepo = (username: string, repo: string) => {
     },
   };
 };
-
-export default useRepo;
