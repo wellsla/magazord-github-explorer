@@ -6,6 +6,8 @@ import {
   getUserStarredRepositories,
 } from "@/features/services/user";
 import type { QueryParams } from "@/lib/types/params";
+import type { User, UserSocialAccount } from "@/lib/types/user";
+import type { Repository } from "@/lib/types/repo";
 
 export const useUser = (username: string, params: QueryParams = {}) => {
   const queries = useQueries({
@@ -36,10 +38,10 @@ export const useUser = (username: string, params: QueryParams = {}) => {
   const [userQ, socialsQ, reposQ, starredQ] = queries;
 
   return {
-    user: userQ.data,
-    socials: socialsQ.data,
-    repos: reposQ.data,
-    starreds: starredQ.data,
+    user: userQ.data as User,
+    socials: socialsQ.data as UserSocialAccount[],
+    repos: reposQ.data as Repository[],
+    starreds: starredQ.data as Repository[],
     isLoading: queries.some((q) => q.isLoading),
     isError: queries.some((q) => q.isError),
     refetchAll: () => {

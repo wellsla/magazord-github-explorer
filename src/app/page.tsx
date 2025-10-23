@@ -52,7 +52,7 @@ const Home = () => {
           <Input
             type="search"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value.trim())}
             onKeyDown={handleKeyDown}
             placeholder="Search GitHub users..."
             className="pl-10 h-12 text-lg"
