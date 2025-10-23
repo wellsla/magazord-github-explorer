@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { Repository } from "@/lib/types/repo";
-import { Card } from "@/ui/card";
 import { Badge } from "@/ui/badge";
-import { Star, GitFork, Bug } from "lucide-react";
+import { Star, GitFork } from "lucide-react";
 
 interface Props {
   repo: Repository;
@@ -13,36 +12,32 @@ interface Props {
 const RepoCard = ({ repo }: Props) => {
   return (
     <Link href={`/${repo.owner.login}/${repo.name}`}>
-      <Card className="p-4 hover:shadow-md transition">
+      <div className="p-4 pb-6 border-b border-[#E5E7EB]/30 transition-colors hover:bg-gray-50/30">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-lg font-semibold text-[#262626]">
             {repo.owner.login} /{" "}
-            <span className="text-blue-600">{repo.name}</span>
+            <span className="text-[#0587FF]">{repo.name}</span>
           </h3>
           {repo.language && <Badge variant="secondary">{repo.language}</Badge>}
-          {repo.archived && <Badge variant="outline">arquivado</Badge>}
+          {repo.archived && <Badge variant="outline">archived</Badge>}
           {repo.fork && <Badge variant="outline">fork</Badge>}
         </div>
         {repo.description && (
-          <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+          <p className="mt-1 text-sm text-[#989898] line-clamp-2">
             {repo.description}
           </p>
         )}
-        <div className="mt-3 flex gap-6 text-sm text-slate-600">
-          <span>
-            <Star />
+        <div className="mt-3 flex items-center gap-6 text-sm text-[#262626]">
+          <span className="flex items-center gap-1">
+            <Star className="w-4 h-4" />
             {repo.stargazers_count}
           </span>
-          <span>
-            <GitFork />
+          <span className="flex items-center gap-1">
+            <GitFork className="w-4 h-4" />
             {repo.forks_count}
           </span>
-          <span>
-            <Bug />
-            {repo.open_issues_count}
-          </span>
         </div>
-      </Card>
+      </div>
     </Link>
   );
 };

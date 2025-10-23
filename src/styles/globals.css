@@ -44,38 +44,44 @@
 }
 
 :root {
+  /* Magazord GitHub Explorer Design System */
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  
+  /* Background Colors */
+  --background: #FFFFFF;
+  --card: #FFFFFF;
+  --popover: #FFFFFF;
+  --secondary: #F6F8FA;
+  --muted: #F6F8FA;
+  --accent: #F6F8FA;
+  
+  /* Text Colors */
+  --foreground: #262626;
+  --card-foreground: #262626;
+  --popover-foreground: #262626;
+  --secondary-foreground: #262626;
+  --accent-foreground: #262626;
+  --muted-foreground: #989898;
+  
+  /* Primary (GitHub Blue) */
+  --primary: #0587FF;
+  --primary-foreground: #FFFFFF;
+  
+  /* Destructive (Red) */
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --destructive-foreground: #FFFFFF;
+  
+  /* Borders & Input */
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #0587FF;
+  
+  /* Charts */
+  --chart-1: oklch(0.629 0.258 14.878);
+  --chart-2: oklch(0.715 0.166 162.48);
+  --chart-3: oklch(0.341 0.137 222.975);
+  --chart-4: oklch(0.729 0.149 67.593);
+  --chart-5: oklch(0.631 0.212 358.435);
 }
 
 .dark {
@@ -117,6 +123,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#FFFFFF] text-[#262626] antialiased;
   }
 }

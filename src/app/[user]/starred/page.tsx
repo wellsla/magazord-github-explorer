@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from "@/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
 import { useMemo, useState } from "react";
 import { useUiStore } from "@/features/stores/useUiStore";
+import { BookOpen, Star } from "lucide-react";
 
 export default function StarredPage() {
   const params = useParams();
@@ -19,7 +20,8 @@ export default function StarredPage() {
   const [repoSearch, setRepoSearch] = useState("");
   const { filters } = useUiStore();
 
-  const { user, socials, starreds, isLoading, isError } = useUser(username);
+  const { user, socials, repos, starreds, isLoading, isError } =
+    useUser(username);
 
   // Filtrar repositórios starred
   const filteredStarreds = useMemo(() => {
@@ -110,47 +112,51 @@ export default function StarredPage() {
         {/* Conteúdo principal */}
         <div className="flex-1">
           <Tabs defaultValue="starred" className="w-full">
-            <TabsList className="mb-6">
+            <TabsList className="mb-6 w-full">
               <TabsTrigger
                 value="repositories"
                 onClick={() => router.push(`/${username}`)}
               >
-                Repositories
+                <BookOpen className="w-4 h-4" />
+                Repositories ({repos?.length || 0})
               </TabsTrigger>
               <TabsTrigger value="starred">
+                <Star className="w-4 h-4" />
                 Starred ({starreds?.length || 0})
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="starred" className="space-y-4">
-              {/* Barra de busca */}
-              <SearchField
-                value={repoSearch}
-                onChange={setRepoSearch}
-                placeholder="Buscar repositórios starred..."
-              />
-
-              {/* Filtros */}
-              <div className="flex gap-3">
-                <FilterBar
-                  variant="type"
-                  options={[
-                    "public",
-                    "private",
-                    "fork",
-                    "archived",
-                    "mirror",
-                    "template",
-                  ]}
-                />
-                <FilterBar variant="language" options={uniqueLanguages} />
+              {/* Barra de busca e filtros */}
+              <div className="flex flex-col md:flex-row gap-3 items-start md:items-center">
+                <div className="flex-1 w-full md:w-auto">
+                  <SearchField
+                    value={repoSearch}
+                    onChange={setRepoSearch}
+                    placeholder="Search starred repositories..."
+                  />
+                </div>
+                <div className="flex gap-3 w-full md:w-auto">
+                  <FilterBar
+                    variant="type"
+                    options={[
+                      "public",
+                      "private",
+                      "fork",
+                      "archived",
+                      "mirror",
+                      "template",
+                    ]}
+                  />
+                  <FilterBar variant="language" options={uniqueLanguages} />
+                </div>
               </div>
 
               {/* Lista de repositórios */}
-              <div className="space-y-3">
+              <div className="space-y-0">
                 {filteredStarreds.length === 0 ? (
-                  <Alert>
-                    <AlertDescription>
+                  <Alert className="border-[#E5E7EB]">
+                    <AlertDescription className="text-[#989898]">
                       No starred repositories found.
                     </AlertDescription>
                   </Alert>

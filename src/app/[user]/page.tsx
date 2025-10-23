@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useUiStore } from "@/features/stores/useUiStore";
 import type { User } from "@/lib/types/user";
+import { BookOpen, Star } from "lucide-react";
 
 export default function User() {
   const params = useParams();
@@ -24,13 +25,11 @@ export default function User() {
   const { user, socials, repos, starreds, isLoading, isError } =
     useUser(username);
 
-  // Filtrar repositórios
   const filteredRepos = useMemo(() => {
     if (!repos) return [];
 
     let filtered = repos;
 
-    // Filtro por busca de texto
     if (repoSearch) {
       filtered = filtered.filter(
         (repo) =>
@@ -39,7 +38,6 @@ export default function User() {
       );
     }
 
-    // Filtro por tipo
     if (filters.type !== "all") {
       switch (filters.type) {
         case "public":
@@ -63,15 +61,11 @@ export default function User() {
       }
     }
 
-    // Filtro por linguagem
     if (filters.language !== "all" && filters.language !== "All") {
       filtered = filtered.filter((repo) => repo.language === filters.language);
     }
 
-    // Ordenação
-    if (filters.sort === "updated") {
-      // Já vem ordenado por updated pela API
-    } else if (filters.sort === "name") {
+    if (filters.sort === "name") {
       filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
     } else if (filters.sort === "stars") {
       filtered = [...filtered].sort(
@@ -82,7 +76,6 @@ export default function User() {
     return filtered;
   }, [repos, repoSearch, filters]);
 
-  // Extrair linguagens únicas dos repositórios
   const uniqueLanguages = useMemo(() => {
     if (!repos) return [];
     const languages = repos
@@ -106,7 +99,6 @@ export default function User() {
     );
   }
 
-  // Em caso de erro ou usuário ausente, mostre um alerta simples
   if (isError || !user) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -120,54 +112,53 @@ export default function User() {
     );
   }
 
-  // Conteúdo principal quando deu tudo certo
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar com perfil do usuário */}
         <ProfileSideBar user={user} userSocialAccounts={socials} />
 
-        {/* Conteúdo principal */}
         <div className="flex-1">
           <Tabs defaultValue="repositories" className="w-full">
-            <TabsList className="mb-6">
+            <TabsList className="mb-6 w-full">
               <TabsTrigger value="repositories">
+                <BookOpen className="w-4 h-4" />
                 Repositories ({repos?.length || 0})
               </TabsTrigger>
               <TabsTrigger
                 value="starred"
                 onClick={() => router.push(`/${username}/starred`)}
               >
+                <Star className="w-4 h-4" />
                 Starred ({starreds?.length || 0})
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="repositories" className="space-y-4">
-              {/* Barra de busca */}
-              <SearchField
-                value={repoSearch}
-                onChange={setRepoSearch}
-                placeholder="Buscar repositórios..."
-              />
-
-              {/* Filtros */}
-              <div className="flex gap-3">
-                <FilterBar
-                  variant="type"
-                  options={[
-                    "public",
-                    "private",
-                    "fork",
-                    "archived",
-                    "mirror",
-                    "template",
-                  ]}
-                />
-                <FilterBar variant="language" options={uniqueLanguages} />
+              <div className="flex flex-col md:flex-row gap-3 items-start md:items-center">
+                <div className="flex-1 w-full md:w-auto">
+                  <SearchField
+                    value={repoSearch}
+                    onChange={setRepoSearch}
+                    placeholder="Search repositories..."
+                  />
+                </div>
+                <div className="flex gap-3 w-full md:w-auto">
+                  <FilterBar
+                    variant="type"
+                    options={[
+                      "public",
+                      "private",
+                      "fork",
+                      "archived",
+                      "mirror",
+                      "template",
+                    ]}
+                  />
+                  <FilterBar variant="language" options={uniqueLanguages} />
+                </div>
               </div>
 
-              {/* Lista de repositórios */}
-              <div className="space-y-3">
+              <div className="space-y-0">
                 {filteredRepos.length === 0 ? (
                   <Alert>
                     <AlertDescription>

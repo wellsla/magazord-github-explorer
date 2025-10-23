@@ -23,7 +23,7 @@ export const RepositoriesSchema = z.array(RepositorySchema);
 
 export const RepositoryIssueSchema = z.object({
   id: z.number(),
-  url: z.url(),
+  html_url: z.url(),
   title: z.string(),
   user: OwnerSchema,
 });

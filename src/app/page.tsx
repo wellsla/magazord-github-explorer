@@ -14,7 +14,6 @@ const Home = () => {
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const router = useRouter();
 
-  // Busca usuários na API do GitHub (debounce já implementado no hook)
   const { data, isLoading } = useSearchUsers(searchQuery, {
     per_page: 5,
   });
@@ -38,29 +37,33 @@ const Home = () => {
   return (
     <section className="min-h-[calc(100vh-120px)] flex items-center justify-center px-4">
       <div className="w-full max-w-2xl space-y-6">
-        {/* Título */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight">GitHub Explorer</h1>
-          <p className="text-lg text-muted-foreground">
+          <h1 className="text-4xl font-bold tracking-tight text-[#262626]">
+            GitHub Explorer
+          </h1>
+          <p className="text-lg text-[#989898]">
             Explore GitHub repositories easily
           </p>
         </div>
 
-        {/* Campo de Busca */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#989898]" />
           <Input
             type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value.trim())}
             onKeyDown={handleKeyDown}
             placeholder="Search GitHub users..."
-            className="pl-10 h-12 text-lg"
+            className="pl-10 h-12 text-lg text-[#262626] border-[#E5E7EB] focus:ring-[#0587FF]"
             autoFocus
           />
+          {searchQuery.length > 0 && searchQuery.length < 4 && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#989898]">
+              {searchQuery.length}/4
+            </div>
+          )}
         </div>
 
-        {/* Resultados da Busca */}
         {searchQuery && data?.items && data!.items.length > 0 && (
           <Card className="p-2 max-h-80 overflow-y-auto">
             <ul className="space-y-1">
@@ -82,15 +85,15 @@ const Home = () => {
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium">{user.login}</p>
+                    <p className="font-medium text-[#262626]">{user.login}</p>
                     {user.name && (
-                      <p className="text-sm text-muted-foreground truncate">
+                      <p className="text-sm text-[#989898] truncate">
                         {user.name}
                       </p>
                     )}
                   </div>
                   {selectedUser === user.login && (
-                    <div className="h-2 w-2 rounded-full bg-primary" />
+                    <div className="h-2 w-2 rounded-full bg-[#0587FF]" />
                   )}
                 </li>
               ))}
@@ -98,45 +101,38 @@ const Home = () => {
           </Card>
         )}
 
-        {/* Mensagem de carregamento */}
         {isLoading && searchQuery && (
-          <Card className="p-4 text-center text-muted-foreground">
+          <Card className="p-4 text-center text-[#989898] border-[#E5E7EB]">
             Loading...
           </Card>
         )}
 
-        {/* Mensagem quando não encontra resultados */}
         {!isLoading &&
           searchQuery &&
           data?.items &&
           data.items.length === 0 && (
-            <Card className="p-4 text-center text-muted-foreground">
+            <Card className="p-4 text-center text-[#989898] border-[#E5E7EB]">
               No users found for &quot;{searchQuery}&quot;.
             </Card>
           )}
 
-        {/* Botão de perfil */}
         <div className="flex flex-col items-center gap-3">
           <Button
             size="lg"
             disabled={!selectedUser}
             onClick={handleViewProfile}
-            className="w-full max-w-xs"
+            className="w-full max-w-xs cursor-pointer"
           >
             View Profile
           </Button>
         </div>
 
-        {selectedUser && (
-          <p className="text-sm text-muted-foreground">
-            Selected User:{" "}
-            <span className="font-medium text-foreground">{selectedUser}</span>
-          </p>
-        )}
-
-        {/* Dica */}
-        <p className="text-center text-sm text-muted-foreground">
-          Write a user&apos;s name and select from the list or press Enter.
+        <p className="text-center text-sm text-[#989898]">
+          {searchQuery.length > 0 && searchQuery.length < 4
+            ? `Type at least ${4 - searchQuery.length} more character${
+                4 - searchQuery.length > 1 ? "s" : ""
+              } to search`
+            : "Write a user's name and select from the list or press Enter."}
         </p>
       </div>
     </section>
