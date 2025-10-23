@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Repository",
-  description: "GitHub repository",
+  title: "Starred Repositories",
+  description: "Starred repositories of a GitHub user",
 };
 
-export default function RepoLayout({
+export default function StarredLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

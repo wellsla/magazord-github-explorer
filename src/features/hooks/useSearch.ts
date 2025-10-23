@@ -3,17 +3,20 @@ import { getUsersSearch } from "@/features/services/search";
 import type { QueryParams } from "@/lib/types/params";
 
 export const useSearchUsers = (username: string, params: QueryParams = {}) => {
+  const q = username.trim().toLowerCase();
   const query = useQuery({
-    queryKey: ["usersSearch", username, params],
-    queryFn: () => getUsersSearch(username, params),
-    enabled: !!username,
+    queryKey: ["usersSearch", q, params],
+    queryFn: () => getUsersSearch(q, params),
+    enabled: q.length > 3,
+    staleTime: 1000 * 30, // 30 segundos
   });
 
-  const { data: searchResults, isLoading, isError } = query;
+  const { data, isLoading, isError, isSuccess } = query;
 
   return {
-    searchResults,
+    data,
     isLoading,
     isError,
+    isSuccess,
   };
 };
