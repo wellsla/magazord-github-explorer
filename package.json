@@ -1,7 +1,23 @@
 {
   "name": "magazord-github-explorer",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "GitHub Explorer - Desafio técnico Magazord. Aplicação para explorar perfis e repositórios do GitHub.",
+  "author": "Welliton Slaviero <github.com/wellsla>",
   "private": true,
+  "keywords": [
+    "github",
+    "explorer",
+    "next.js",
+    "typescript",
+    "react",
+    "tailwindcss",
+    "zustand",
+    "react-query"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wellsla/magazord-github-explorer.git"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",

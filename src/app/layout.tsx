@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-// @ts-expect-error-error
 import "../styles/globals.css";
 import Providers from "../lib/providers";
 import Header from "@/components/Header";

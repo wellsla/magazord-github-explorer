@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitHub Explorer
 
-## Getting Started
+Aplicação para explorar perfis e repositórios do GitHub. Desenvolvida para o desafio técnico Magazord.
 
-First, run the development server:
+## 🚀 Ver funcionando
+
+**Deploy:** https://magazord-github-explorer.vercel.app
+
+## 📖 Documentação
+
+- 📄 **README.md** - Você está aqui
+- 📝 **[DEV-JOURNAL.md](./DEV-JOURNAL.md)** - Como construí o projeto (diário de desenvolvimento)
+- ⚡ **[QUICKSTART.md](./QUICKSTART.md)** - Instalação rápida
+
+## O que faz
+
+- Busca usuários do GitHub
+- Lista repositórios e favoritos
+- Filtra por tipo e linguagem
+- Mostra detalhes e issues
+- Funciona em mobile, tablet e desktop
+
+## Tecnologias
+
+**Requisitos do desafio:**
+
+- Next.js 15
+- TypeScript
+- TailwindCSS 4
+- Zustand (estado global)
+- React Query (cache)
+- Vercel (deploy)
+
+**Outras libs:**
+
+- Axios (HTTP)
+- Zod (validação)
+- Radix UI (componentes)
+- Lucide (ícones)
+
+## Como rodar
 
 ```bash
+# Clone
+git clone https://github.com/wellsla/magazord-github-explorer.git
+cd magazord-github-explorer
+
+# Instale
+npm install
+
+# Configure (opcional mas recomendado)
+cp .env.example .env.local
+# Adicione seu token do GitHub em .env.local
+# Sem token: 60 requests/hora | Com token: 5000 requests/hora
+
+# Execute
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estrutura básica
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/          # Páginas (Next.js App Router)
+├── components/   # Componentes visuais
+├── features/     # Hooks, serviços, stores
+├── lib/          # Utils e tipos
+└── ui/           # Componentes base (Radix UI)
+```
 
-## Learn More
+## Principais desafios
 
-To learn more about Next.js, take a look at the following resources:
+**Design responsivo**  
+Criei 3 layouts diferentes (mobile, tablet, desktop) em vez de tentar adaptar um só. Ficou mais fácil de manter.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Filtros**  
+Dropdown no desktop, bottom sheet no mobile. Usei Zustand pra persistir entre páginas.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Rate limit da API**  
+Adicionei suporte a token opcional e React Query faz cache automático das chamadas.
 
-## Deploy on Vercel
+**Emojis nos avatares**  
+A API não retorna isso, então criei um sistema que gera um emoji consistente baseado no ID do usuário.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## O que aprendi
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- React Query economiza muitas chamadas desnecessárias
+- Zustand é bem mais simples que Redux pra estado global
+- Zod adiciona segurança nas respostas da API
+- Às vezes é melhor criar layouts separados que tentar adaptar um único
+
+## Possíveis melhorias
+
+- Testes (Jest + Playwright)
+- Dark mode
+- Histórico de buscas
+- PWA com cache offline
+- Gráficos de atividade
+
+## Autor
+
+Welliton Slaviero
+
+**Figma do projeto:** [Design Original](https://www.figma.com/file/sf1CmqcEZbUzkeZOA4AUGj/TESTE-FRONT-MAGAZORD?node-id=0%3A1)
