@@ -1,20 +1,18 @@
-import type { RepoType, SortBy } from "@/lib/types/repo";
-
 export type UiState = {
   username: string;
   searchText: string;
   filters: {
-    language: string | "All";
-    type: RepoType;
-    sort: SortBy;
+    language: string;
+    type: string;
+    sort: string;
   };
   modals: {
     typeOpen: boolean;
     languageOpen: boolean;
   };
-  setUsername: (u: string) => void;
-  setSearchText: (t: string) => void;
-  setFilters: (p: Partial<UiState["filters"]>) => void;
+  setUsername: (username: string) => void;
+  setSearchText: (text: string) => void;
+  setFilters: (filters: Partial<UiState["filters"]>) => void;
   toggleModal: (name: keyof UiState["modals"], open?: boolean) => void;
   resetFilters: () => void;
 };

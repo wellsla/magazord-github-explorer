@@ -8,11 +8,12 @@ export const useUiStore = create<UiState>((set) => ({
   modals: { typeOpen: false, languageOpen: false },
   setUsername: (u) => set({ username: u }),
   setSearchText: (t) => set({ searchText: t }),
-  setFilters: (p) => set((s) => ({ filters: { ...s.filters, ...p } })),
+  setFilters: (partialFilters) =>
+    set((state) => ({ filters: { ...state.filters, ...partialFilters } })),
   toggleModal: (name, open) =>
     set((state) => ({
       modals: { ...state.modals, [name]: open ?? !state.modals[name] },
     })),
   resetFilters: () =>
-    set({ filters: { language: "All", type: "all", sort: "updated" } }),
+    set({ filters: { language: "all", type: "all", sort: "updated" } }),
 }));
